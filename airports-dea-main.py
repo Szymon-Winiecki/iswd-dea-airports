@@ -8,7 +8,7 @@ def read_airport_names_from_csv(file_path, delimiter=';'):
     data = []
     with open(file_path, 'r') as file:
         reader = csv.reader(file, delimiter=delimiter)
-        next(reader)  # Skip the header
+        next(reader)
         for row in reader:
             data.append(row[0])
     return np.array(data)
@@ -17,7 +17,7 @@ def read_values_from_csv(file_path, delimiter=';'):
     data = []
     with open(file_path, 'r') as file:
         reader = csv.reader(file, delimiter=delimiter)
-        next(reader)  # Skip the header
+        next(reader)
         for row in reader:
             row = [float(value) for index, value in enumerate(row) if index != 0]
             data.append(row)
@@ -28,7 +28,7 @@ def read_weight_samples_from_csv(file_path, delimiter=';', num_inputs=4, num_out
     output_weights = []
     with open(file_path, 'r') as file:
         reader = csv.reader(file, delimiter=delimiter)
-        next(reader)  # Skip the header
+        next(reader)
         for row in reader:
             row = [float(value) for value in row]
             input_weights.append(row[1:num_inputs+1])
@@ -224,6 +224,15 @@ def main():
 
     efficiency_distribution_results = airport_efficiency_distribution_analysis(inputs, outputs, input_weights, output_weights, airport_names)
     efficiency_distribution_results.to_csv('out/efficiency_distribution.csv', float_format='%.3f', index=False)
+
+    print("Super-efficency ranking:")
+    print(super_efficiency_results.sort_values(by='Super Efficiency', ascending=False))
+
+    print("Cross-efficiency ranking:")
+    print(cross_efficiency_results.sort_values(by='Avg', ascending=False))
+
+    print("Efficiency distribution ranking:")
+    print(efficiency_distribution_results.sort_values(by='EE', ascending=False))
     
 
 main()
